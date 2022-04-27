@@ -48,18 +48,6 @@ function App() {
     e.target[0].value = "";
   };
 
-
-  // .filter((tag) => {
-  //   if (tagSearched === "") {
-  //     return tag;
-  //   } else if (
-  //     tag.toLowerCase().includes(tagSearched.toLowerCase())
-  //   ) {
-  //     return tag;
-  //   }
-  //   return false;
-  // })
-
   return (
     <div className="App">
       <div className="searchBar">
