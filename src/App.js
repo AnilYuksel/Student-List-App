@@ -8,7 +8,9 @@ function App() {
   useEffect(() => {
     const url = `https://api.hatchways.io/assessment/students`;
     axios.get(url).then((res) => {
-      setData(res.data.students);
+      setData(
+        res.data.students.map((student) => ({ ...student, tagName: [] }))
+      );
     });
   }, []);
 
@@ -46,6 +48,18 @@ function App() {
     e.target[0].value = "";
   };
 
+
+  // .filter((tag) => {
+  //   if (tagSearched === "") {
+  //     return tag;
+  //   } else if (
+  //     tag.toLowerCase().includes(tagSearched.toLowerCase())
+  //   ) {
+  //     return tag;
+  //   }
+  //   return false;
+  // })
+
   return (
     <div className="App">
       <div className="searchBar">
@@ -68,7 +82,12 @@ function App() {
       </div>
       {data
         .filter((item) =>
-          keys.some((key) => item[key].toLowerCase().includes(searched))
+          keys.some((key) => item[key].toLowerCase().includes(searched)) &&
+          (!!tagSearched
+            ? item.tagName.some((tag) =>
+                tag.toLowerCase().includes(tagSearched)
+              )
+            : true)
         )
         .map((item) => {
           return (
@@ -99,16 +118,7 @@ function App() {
                       <div></div>
                     )}
                     <div className="tagContainer">
-                      {item.tagName?.filter((tag) => {
-                        if (tagSearched === "") {
-                          return tag;
-                        } else if (
-                          tag.toLowerCase().includes(tagSearched.toLowerCase())
-                        ) {
-                          return tag;
-                        }
-                        return false;
-                      }).map((tag, i) => (
+                      {item.tagName?.map((tag, i) => (
                         <div key={i}>
                           <p className="tag">{tag}</p>
                         </div>
